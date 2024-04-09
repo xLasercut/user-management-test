@@ -1,7 +1,7 @@
 import {createBrowserRouter} from 'react-router-dom';
-import NotificationSettings from '../views/NotificationSettings.tsx';
 import App from '../App.tsx';
-import Home from '../views/Home.tsx';
+import EditUser from '../views/EditUser.tsx';
+import AddRoles from '../views/AddRoles.tsx';
 
 const router = createBrowserRouter([
   {
@@ -10,11 +10,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/user-management-test/',
-        element: <Home></Home>,
+        element: <EditUser></EditUser>,
       },
       {
-        path: '/user-management-test/notification-settings',
-        element: <NotificationSettings></NotificationSettings>,
+        path: '/user-management-test/add-roles',
+        element: <AddRoles></AddRoles>,
       },
     ],
   },
