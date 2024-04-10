@@ -1,15 +1,16 @@
 import {Button, Checkboxes, Fieldset, Input, Radios} from 'nhsuk-react-components';
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useGlobalStore} from '../store/store.ts';
 
 function AddRoles() {
+  const {email} = useParams();
   const COLLECTIONS = ['MHSDS', 'MSDS', 'CSDS', 'IAPT'];
 
   const [rolesToAdd, setRolesToAdd] = useState<Record<string, string | undefined>>({});
   const [odsCode, setOdsCode] = useState<string>('');
   const navigate = useNavigate();
-  const addRolesToAdd = useGlobalStore(state => state.addRolesToAdd);
+  const addRoleToAdd = useGlobalStore(state => state.addRoleToAdd);
 
   function confirmAddRoles() {
     for (const key in rolesToAdd) {
@@ -17,18 +18,18 @@ function AddRoles() {
         continue;
       }
 
-      addRolesToAdd({
+      addRoleToAdd({
         role: rolesToAdd[key] || '',
         collection: key,
         organisation_code: odsCode,
       });
     }
 
-    navigate('/user-management-test/');
+    navigate(`/user-management-test/edit-user/${email}`);
   }
 
   function cancel() {
-    navigate('/user-management-test/');
+    navigate(`/user-management-test/edit-user/${email}`);
   }
 
   function updateOdsCode(e: any) {

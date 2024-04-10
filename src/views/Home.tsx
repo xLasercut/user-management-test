@@ -18,29 +18,12 @@ function Home() {
       </div>
       <div className='nhsuk-grid-row'>
         <div className='nhsuk-grid-column-one-half'>
-          <Card clickable data-test-id='submit-card'>
-            <Card.Content>
-              <Card.Heading>
-                <Card.Link
-                  href=''
-                  onClick={e => {
-                    e.preventDefault();
-                  }}
-                >
-                  Submit a File
-                </Card.Link>
-              </Card.Heading>
-              <Card.Description>Upload a new file for a submission</Card.Description>
-            </Card.Content>
-          </Card>
-        </div>
-        <div className='nhsuk-grid-column-one-half'>
           <Card clickable data-test-id='submission-history-card'>
             <Card.Content>
               <Card.Heading>
-                <Link to='/user-management-test/'>Submission History</Link>
+                <Link to='/user-management-test/user-permissions'>Accounts and Permissions</Link>
               </Card.Heading>
-              <Card.Description>View previous submissions</Card.Description>
+              <Card.Description>View user accounts and permission</Card.Description>
             </Card.Content>
           </Card>
         </div>

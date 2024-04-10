@@ -1,33 +1,27 @@
 import {create} from 'zustand';
-
-interface Role {
-  role: string;
-  collection: string;
-  organisation_code: string;
-}
+import {Role, User} from '../types.ts';
+import {isRoleInList} from './helpers.ts';
 
 interface State {
-  currentUserDetails: {
-    email: string;
-    first_name: string;
-    last_name: string;
-    do_not_delete: boolean;
-    roles: Role[];
-  };
+  users: User[];
   rolesToAdd: Role[];
   rolesToDelete: Role[];
-  addRolesToAdd: (role: Role) => void;
-  cancelAddRoles: (role: Role) => void;
-  deleteRole: (role: Role) => void;
-  cancelDeleteRole: (role: Role) => void;
+  addRoleToAdd: (role: Role) => void;
+  removeRoleToAdd: (role: Role) => void;
+  addRoleToDelete: (role: Role) => void;
+  removeRoleToDelete: (role: Role) => void;
+  getUser: (email: string) => User;
+  applyChanges: (email: string, rolesToAdd: Role[], rolesToDelete: Role[]) => void;
+  clear: () => void;
 }
 
-const useGlobalStore = create<State>(set => ({
-  currentUserDetails: {
+const allUsers: User[] = [
+  {
     email: 'john.smith@nhs.net',
     first_name: 'John',
     last_name: 'Smith',
     do_not_delete: false,
+    account_enabled: true,
     roles: [
       {
         role: 'SUBMITTER',
@@ -36,16 +30,39 @@ const useGlobalStore = create<State>(set => ({
       },
     ],
   },
+  {
+    email: 'test.user@nhs.net',
+    first_name: 'Test',
+    last_name: 'User',
+    do_not_delete: false,
+    account_enabled: true,
+    roles: [
+      {
+        role: 'SUBMITTER',
+        collection: 'CSDS',
+        organisation_code: 'X26',
+      },
+      {
+        role: 'ANALYST',
+        collection: 'MSDS',
+        organisation_code: 'X26',
+      },
+    ],
+  },
+];
+
+const useGlobalStore = create<State>((set, get) => ({
+  users: allUsers,
   rolesToAdd: [],
   rolesToDelete: [],
-  addRolesToAdd: (role: Role) => {
+  addRoleToAdd: (role: Role) => {
     return set(state => {
       return {
         rolesToAdd: [...state.rolesToAdd, role],
       };
     });
   },
-  cancelAddRoles: (role: Role) => {
+  removeRoleToAdd: (role: Role) => {
     return set(state => {
       return {
         rolesToAdd: state.rolesToAdd.filter(item => {
@@ -54,19 +71,51 @@ const useGlobalStore = create<State>(set => ({
       };
     });
   },
-  deleteRole: (role: Role) => {
+  addRoleToDelete: (role: Role) => {
     return set(state => {
       return {
         rolesToDelete: [...state.rolesToDelete, role],
       };
     });
   },
-  cancelDeleteRole: (role: Role) => {
+  removeRoleToDelete: (role: Role) => {
     return set(state => {
       return {
         rolesToDelete: state.rolesToDelete.filter(item => {
           return item !== role;
         }),
+      };
+    });
+  },
+  getUser: (email: string): User => {
+    return get().users.filter(user => user.email === email)[0];
+  },
+  applyChanges: (email: string, rolesToAdd: Role[], rolesToDelete: Role[]) => {
+    return set(state => {
+      return {
+        users: state.users.map(user => {
+          if (user.email === email) {
+            return {
+              ...user,
+              roles: [
+                ...user.roles.filter(role => {
+                  return !isRoleInList(role, rolesToDelete);
+                }),
+                ...rolesToAdd,
+              ],
+            };
+          }
+
+          return user;
+        }),
+      };
+    });
+  },
+  clear: () => {
+    return set(() => {
+      return {
+        rolesToDelete: [],
+        rolesToAdd: [],
       };
     });
   },
