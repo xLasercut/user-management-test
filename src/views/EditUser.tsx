@@ -4,6 +4,28 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {getOrgName, isRoleInList} from '../store/helpers.ts';
 import {Role} from '../types.ts';
 
+function DeleteRestoreButton({accountEnabled}: {accountEnabled: boolean}) {
+  const {email} = useParams();
+  const restoreUser = useGlobalStore(state => state.restoreUser);
+
+  const navigate = useNavigate();
+
+  function deleteUser() {
+    navigate(`/user-management-test/delete-user-confirm/${email}`);
+  }
+
+  function restore() {
+    restoreUser(email || '');
+    navigate(`/user-management-test/user-permissions`);
+  }
+
+  if (accountEnabled) {
+    return <Button onClick={deleteUser}>Delete User</Button>;
+  }
+
+  return <Button onClick={restore}>Restore User</Button>;
+}
+
 function EditUser() {
   const {email} = useParams();
   const getUser = useGlobalStore(state => state.getUser);
@@ -58,6 +80,9 @@ function EditUser() {
         <h1 className='nhsuk-heading-l' data-test-id='heading-one'>
           {currentUserDetails.first_name} {currentUserDetails.last_name}
         </h1>
+        <DeleteRestoreButton
+          accountEnabled={currentUserDetails.account_enabled}
+        ></DeleteRestoreButton>
         <SummaryList data-test-id='summary-info-summarylist'>
           <SummaryList.Row>
             <SummaryList.Key>First Name</SummaryList.Key>

@@ -6,6 +6,8 @@ import Home from '../views/Home.tsx';
 import {UserPermissions} from '../views/UserPermissions.tsx';
 import {DeleteRoleConfirm} from '../views/DeleteRoleConfirm.tsx';
 import {EditUserDetails} from '../views/EditUserDetails.tsx';
+import {DeletedUsers} from '../views/DeletedUsers.tsx';
+import {DeleteUserConfirm} from '../views/DeleteUserConfirm.tsx';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: 'edit-user-details/:email',
         element: <EditUserDetails></EditUserDetails>,
+      },
+      {
+        path: 'deleted-users',
+        element: <DeletedUsers></DeletedUsers>,
+      },
+      {
+        path: 'delete-user-confirm/:email',
+        element: <DeleteUserConfirm></DeleteUserConfirm>,
       },
     ],
   },

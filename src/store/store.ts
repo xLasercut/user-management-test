@@ -20,6 +20,8 @@ interface State {
     rolesToDelete: Role[]
   ) => void;
   clear: () => void;
+  deleteUser: (email: string) => void;
+  restoreUser: (email: string) => void;
 }
 
 const allUsers: User[] = [
@@ -36,6 +38,7 @@ const allUsers: User[] = [
         organisation_code: 'X27',
       },
     ],
+    creation_time: '2001-01-01T00:00:00',
   },
   {
     email: 'test.user@nhs.net',
@@ -55,6 +58,28 @@ const allUsers: User[] = [
         organisation_code: 'X26',
       },
     ],
+    creation_time: '2001-01-01T00:00:00',
+  },
+  {
+    email: 'deleted.user@nhs.net',
+    first_name: 'Deleted',
+    last_name: 'User',
+    do_not_delete: false,
+    account_enabled: false,
+    roles: [
+      {
+        role: 'SUBMITTER',
+        collection: 'CSDS',
+        organisation_code: 'X26',
+      },
+      {
+        role: 'ANALYST',
+        collection: 'MSDS',
+        organisation_code: 'X26',
+      },
+    ],
+    creation_time: '2001-01-01T00:00:00',
+    account_disabled_time: '2001-01-01T00:00:00'
   },
 ];
 
@@ -138,6 +163,38 @@ const useGlobalStore = create<State>((set, get) => ({
         rolesToDelete: [],
         rolesToAdd: [],
         userDetailsToUpdate: {},
+      };
+    });
+  },
+  deleteUser: (email: string) => {
+    return set(state => {
+      return {
+        users: state.users.map(user => {
+          if (user.email === email) {
+            return {
+              ...user,
+              account_enabled: false,
+              account_disabled_time: new Date().toISOString(),
+            };
+          }
+          return user;
+        }),
+      };
+    });
+  },
+  restoreUser: (email: string) => {
+    return set(state => {
+      return {
+        users: state.users.map(user => {
+          if (user.email === email) {
+            return {
+              ...user,
+              account_enabled: true,
+              account_disabled_time: undefined,
+            };
+          }
+          return user;
+        }),
       };
     });
   },

@@ -65,7 +65,7 @@ function UserPermissions() {
           </Table.Row>
         </Table.Head>
         <Table.Body>
-          {allUsers.map(user => (
+          {allUsers.filter(user => user.account_enabled).map(user => (
             <UserRows user={user} />
           ))}
         </Table.Body>

@@ -27,6 +27,16 @@ function Home() {
             </Card.Content>
           </Card>
         </div>
+        <div className='nhsuk-grid-column-one-half'>
+          <Card clickable data-test-id='submission-history-card'>
+            <Card.Content>
+              <Card.Heading>
+                <Link to='/user-management-test/deleted-users'>Deleted Users</Link>
+              </Card.Heading>
+              <Card.Description>View deleted users</Card.Description>
+            </Card.Content>
+          </Card>
+        </div>
       </div>
     </>
   );

@@ -53,7 +53,6 @@ function EditUserDetails() {
 
   return (
     <>
-      {JSON.stringify(detailsToUpdate)}
       <Input
         onChange={updateField('first_name')}
         defaultValue={detailsToUpdate.first_name}

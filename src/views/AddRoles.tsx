@@ -66,8 +66,6 @@ function AddRoles() {
 
   return (
     <>
-      <p>ODS Code: {odsCode}</p>
-      <p>Roles: {JSON.stringify(rolesToAdd)}</p>
       <Input label='ODS Code' value={odsCode} onChange={updateOdsCode}></Input>
       <Fieldset aria-describedby='notification-mid-window--hint'>
         <Fieldset.Legend>
