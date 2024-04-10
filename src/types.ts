@@ -14,4 +14,10 @@ interface User {
   roles: Role[];
 }
 
-export type {Role, User};
+interface UserDetailsToUpdate {
+  first_name?: string;
+  last_name?: string;
+  do_not_delete?: boolean;
+}
+
+export type {Role, User, UserDetailsToUpdate};

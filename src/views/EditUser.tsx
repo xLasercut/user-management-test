@@ -8,6 +8,7 @@ function EditUser() {
   const {email} = useParams();
   const getUser = useGlobalStore(state => state.getUser);
   const currentUserDetails = getUser(email || '');
+  const userDetailsToUpdate = useGlobalStore(state => state.userDetailsToUpdate);
   const rolesToAdd = useGlobalStore(state => state.rolesToAdd);
   const rolesToDelete = useGlobalStore(state => state.rolesToDelete);
   const removeRoleToAdd = useGlobalStore(state => state.removeRoleToAdd);
@@ -25,7 +26,7 @@ function EditUser() {
   }
 
   function confirmChange() {
-    applyChanges(email || '', rolesToAdd, rolesToDelete);
+    applyChanges(email || '', userDetailsToUpdate, rolesToAdd, rolesToDelete);
     clear();
     navigate('/user-management-test/user-permissions');
   }
@@ -34,6 +35,21 @@ function EditUser() {
     return currentUserDetails.roles.filter(role => {
       return !isRoleInList(role, rolesToDelete);
     });
+  }
+
+  function displayUserDetail(key: 'first_name' | 'last_name' | 'do_not_delete') {
+    if (
+      userDetailsToUpdate[key] !== undefined &&
+      userDetailsToUpdate[key] !== currentUserDetails[key]
+    ) {
+      return `${currentUserDetails[key]} (Pending update to ${userDetailsToUpdate[key]})`;
+    }
+    return currentUserDetails[key];
+  }
+
+  function updateUserDetails(e: any) {
+    e.preventDefault();
+    navigate(`/user-management-test/edit-user-details/${email}`);
   }
 
   return (
@@ -46,21 +62,33 @@ function EditUser() {
           <SummaryList.Row>
             <SummaryList.Key>First Name</SummaryList.Key>
             <SummaryList.Value data-test-id='organisation'>
-              {currentUserDetails.first_name} {'(pending update to FirstName)'}
+              {displayUserDetail('first_name')}
             </SummaryList.Value>
-            <SummaryList.Actions>Change</SummaryList.Actions>
+            <SummaryList.Actions>
+              <a href='' onClick={updateUserDetails}>
+                Change
+              </a>
+            </SummaryList.Actions>
           </SummaryList.Row>
           <SummaryList.Row>
             <SummaryList.Key>Last Name</SummaryList.Key>
             <SummaryList.Value data-test-id='collection'>
-              {currentUserDetails.last_name}
+              {displayUserDetail('last_name')}
             </SummaryList.Value>
-            <SummaryList.Actions>Change</SummaryList.Actions>
+            <SummaryList.Actions>
+              <a href='' onClick={updateUserDetails}>
+                Change
+              </a>
+            </SummaryList.Actions>
           </SummaryList.Row>
           <SummaryList.Row>
             <SummaryList.Key>Do not delete</SummaryList.Key>
-            <SummaryList.Value data-test-id='version'>{`${currentUserDetails.do_not_delete}`}</SummaryList.Value>
-            <SummaryList.Actions>Change</SummaryList.Actions>
+            <SummaryList.Value data-test-id='version'>{`${displayUserDetail('do_not_delete')}`}</SummaryList.Value>
+            <SummaryList.Actions>
+              <a href='' onClick={updateUserDetails}>
+                Change
+              </a>
+            </SummaryList.Actions>
           </SummaryList.Row>
         </SummaryList>
         <h1 className='nhsuk-heading-l' data-test-id='heading-one'>

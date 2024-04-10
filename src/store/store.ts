@@ -1,17 +1,24 @@
 import {create} from 'zustand';
-import {Role, User} from '../types.ts';
+import {Role, User, UserDetailsToUpdate} from '../types.ts';
 import {isRoleInList} from './helpers.ts';
 
 interface State {
   users: User[];
+  userDetailsToUpdate: UserDetailsToUpdate;
   rolesToAdd: Role[];
   rolesToDelete: Role[];
   addRoleToAdd: (role: Role) => void;
   removeRoleToAdd: (role: Role) => void;
   addRoleToDelete: (role: Role) => void;
   removeRoleToDelete: (role: Role) => void;
+  addUserDetailsToUpdate: (details: UserDetailsToUpdate) => void;
   getUser: (email: string) => User;
-  applyChanges: (email: string, rolesToAdd: Role[], rolesToDelete: Role[]) => void;
+  applyChanges: (
+    email: string,
+    userDetails: UserDetailsToUpdate,
+    rolesToAdd: Role[],
+    rolesToDelete: Role[]
+  ) => void;
   clear: () => void;
 }
 
@@ -53,6 +60,7 @@ const allUsers: User[] = [
 
 const useGlobalStore = create<State>((set, get) => ({
   users: allUsers,
+  userDetailsToUpdate: {},
   rolesToAdd: [],
   rolesToDelete: [],
   addRoleToAdd: (role: Role) => {
@@ -87,10 +95,22 @@ const useGlobalStore = create<State>((set, get) => ({
       };
     });
   },
+  addUserDetailsToUpdate: (details: UserDetailsToUpdate) => {
+    return set(() => {
+      return {
+        userDetailsToUpdate: details,
+      };
+    });
+  },
   getUser: (email: string): User => {
     return get().users.filter(user => user.email === email)[0];
   },
-  applyChanges: (email: string, rolesToAdd: Role[], rolesToDelete: Role[]) => {
+  applyChanges: (
+    email: string,
+    userDetails: UserDetailsToUpdate,
+    rolesToAdd: Role[],
+    rolesToDelete: Role[]
+  ) => {
     return set(state => {
       return {
         users: state.users.map(user => {
@@ -103,6 +123,7 @@ const useGlobalStore = create<State>((set, get) => ({
                 }),
                 ...rolesToAdd,
               ],
+              ...userDetails,
             };
           }
 
@@ -116,6 +137,7 @@ const useGlobalStore = create<State>((set, get) => ({
       return {
         rolesToDelete: [],
         rolesToAdd: [],
+        userDetailsToUpdate: {},
       };
     });
   },
