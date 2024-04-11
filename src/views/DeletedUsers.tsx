@@ -1,13 +1,55 @@
-import {Table} from 'nhsuk-react-components';
+import {Button, Table} from 'nhsuk-react-components';
 import {useGlobalStore} from '../store/store.ts';
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
+import {FormInput} from '../components/FormInput.tsx';
+import {z} from 'zod';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
+import {useQueryParamHelper} from '../common/query-param-helper.ts';
 
 function DeletedUsers() {
   const users = useGlobalStore(state => state.users);
+  const clear = useGlobalStore(state => state.clear);
   const navigate = useNavigate();
+  const {updateUrlParameter, getParameter, setParameter} = useQueryParamHelper();
+  const email = getParameter('email');
+
+  const filterSchema = z.object({
+    email: z.string(),
+  });
+
+  const formHandler = useForm<z.infer<typeof filterSchema>>({
+    resolver: zodResolver(filterSchema),
+    values: {email: email},
+  });
+
+  const onSubmit = formHandler.handleSubmit(data => {
+    setParameter('email', data.email);
+
+    updateUrlParameter();
+  });
 
   return (
     <>
+      <h1 data-test-id='main-heading'>Deleted Users</h1>
+      <div className='nhsuk-grid-row'>
+        <form onSubmit={onSubmit}>
+          <div className='nhsuk-grid-column-one-quarter'>
+            <FormInput<typeof filterSchema>
+              formField='email'
+              formHandler={formHandler}
+              label='Email'
+            />
+          </div>
+          <Button
+            type='submit'
+            className='nhsuk-u-margin-4 nhsuk-u-padding-2 nhsuk-u-padding-right-3 nhsuk-u-padding-left-3'
+          >
+            Apply
+          </Button>
+        </form>
+      </div>
+
       <Table responsive>
         <Table.Head>
           <Table.Row>
@@ -22,8 +64,15 @@ function DeletedUsers() {
         <Table.Body>
           {users
             .filter(user => !user.account_enabled)
+            .filter(user => {
+              if (!email) {
+                return true;
+              }
+
+              return user.email === email;
+            })
             .map(user => (
-              <Table.Row>
+              <Table.Row key={user.email}>
                 <Table.Cell>
                   {user.first_name} {user.last_name}
                 </Table.Cell>
@@ -32,10 +81,16 @@ function DeletedUsers() {
                 <Table.Cell>{user.last_login_time}</Table.Cell>
                 <Table.Cell>{user.creation_time}</Table.Cell>
                 <Table.Cell>
-                  <a href='' onClick={e => {
-                    e.preventDefault()
-                    navigate(`/user-management-test/edit-user/${user.email}`)
-                  }}>Edit</a>
+                  <a
+                    href=''
+                    onClick={e => {
+                      e.preventDefault();
+                      clear();
+                      navigate(`/user-management-test/edit-user/${user.email}`);
+                    }}
+                  >
+                    Edit
+                  </a>
                 </Table.Cell>
               </Table.Row>
             ))}

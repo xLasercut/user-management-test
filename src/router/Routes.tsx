@@ -8,6 +8,7 @@ import {DeleteRoleConfirm} from '../views/DeleteRoleConfirm.tsx';
 import {EditUserDetails} from '../views/EditUserDetails.tsx';
 import {DeletedUsers} from '../views/DeletedUsers.tsx';
 import {DeleteUserConfirm} from '../views/DeleteUserConfirm.tsx';
+import {RestoreUserConfirm} from "../views/RestoreUserConfirm.tsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
         path: 'delete-user-confirm/:email',
         element: <DeleteUserConfirm></DeleteUserConfirm>,
       },
+      {
+        path: 'restore-user-confirm/:email',
+        element: <RestoreUserConfirm></RestoreUserConfirm>
+      }
     ],
   },
 ]);

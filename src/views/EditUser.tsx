@@ -2,11 +2,129 @@ import {useGlobalStore} from '../store/store.ts';
 import {Button, SummaryList, Table, Tag} from 'nhsuk-react-components';
 import {useNavigate, useParams} from 'react-router-dom';
 import {getOrgName, isRoleInList} from '../store/helpers.ts';
-import {Role} from '../types.ts';
+import {Role, User} from '../types.ts';
+
+function UserName({userAccountDetails}: {userAccountDetails: User}) {
+  if (!userAccountDetails.account_enabled) {
+    return (
+      <>
+        <h1 className='nhsuk-heading-l' data-test-id='heading-one'>
+          {userAccountDetails.first_name} {userAccountDetails.last_name} (Deleted)
+        </h1>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <h1 className='nhsuk-heading-l' data-test-id='heading-one'>
+        {userAccountDetails.first_name} {userAccountDetails.last_name} {}
+      </h1>
+    </>
+  );
+}
+
+function AddRoleButton({email, accountEnabled}: {email: string; accountEnabled: boolean}) {
+  const navigate = useNavigate();
+
+  function addRole() {
+    navigate(`/user-management-test/add-roles/${email}`);
+  }
+
+  if (!accountEnabled) {
+    return null;
+  }
+  return (
+    <>
+      <Table.Row style={{margin: 50}}>
+        <Table.Cell></Table.Cell>
+        <Table.Cell></Table.Cell>
+        <Table.Cell></Table.Cell>
+        <Table.Cell></Table.Cell>
+        <Table.Cell></Table.Cell>
+        <Table.Cell>
+          <a
+            href=''
+            onClick={e => {
+              e.preventDefault();
+              addRole();
+            }}
+          >
+            Add Role
+          </a>
+        </Table.Cell>
+      </Table.Row>
+    </>
+  );
+}
+
+function ChangeDetailsButton({email, accountEnabled}: {email: string; accountEnabled: boolean}) {
+  const navigate = useNavigate();
+
+  function updateUserDetails(e: any) {
+    e.preventDefault();
+    navigate(`/user-management-test/edit-user-details/${email}`);
+  }
+
+  if (!accountEnabled) {
+    return (
+      <>
+        <SummaryList.Actions></SummaryList.Actions>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <SummaryList.Actions>
+        <a href='' onClick={updateUserDetails}>
+          Change
+        </a>
+      </SummaryList.Actions>
+    </>
+  );
+}
+
+function DeleteRoleButton({
+  email,
+  role,
+  accountEnabled,
+}: {
+  email: string;
+  role: Role;
+  accountEnabled: boolean;
+}) {
+  const navigate = useNavigate();
+
+  if (!accountEnabled) {
+    return (
+      <>
+        <Table.Cell></Table.Cell>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Table.Cell>
+        <a
+          href=''
+          onClick={e => {
+            e.preventDefault();
+            navigate(
+              `/user-management-test/delete-role-confirm?email=${email}&role=${role.role}&collection=${role.collection}&ods_code=${role.organisation_code}`
+            );
+          }}
+        >
+          Delete
+        </a>
+      </Table.Cell>
+    </>
+  );
+}
 
 function DeleteRestoreButton({accountEnabled}: {accountEnabled: boolean}) {
   const {email} = useParams();
-  const restoreUser = useGlobalStore(state => state.restoreUser);
 
   const navigate = useNavigate();
 
@@ -15,8 +133,7 @@ function DeleteRestoreButton({accountEnabled}: {accountEnabled: boolean}) {
   }
 
   function restore() {
-    restoreUser(email || '');
-    navigate(`/user-management-test/user-permissions`);
+    navigate(`/user-management-test/restore-user-confirm/${email}`);
   }
 
   if (accountEnabled) {
@@ -38,10 +155,6 @@ function EditUser() {
   const applyChanges = useGlobalStore(state => state.applyChanges);
   const clear = useGlobalStore(state => state.clear);
   const navigate = useNavigate();
-
-  function addRole() {
-    navigate(`/user-management-test/add-roles/${email}`);
-  }
 
   function cancel() {
     navigate('/user-management-test/user-permissions');
@@ -69,17 +182,10 @@ function EditUser() {
     return currentUserDetails[key];
   }
 
-  function updateUserDetails(e: any) {
-    e.preventDefault();
-    navigate(`/user-management-test/edit-user-details/${email}`);
-  }
-
   return (
     <>
       <div className='nhsuk-u-width-full'>
-        <h1 className='nhsuk-heading-l' data-test-id='heading-one'>
-          {currentUserDetails.first_name} {currentUserDetails.last_name}
-        </h1>
+        <UserName userAccountDetails={currentUserDetails}></UserName>
         <DeleteRestoreButton
           accountEnabled={currentUserDetails.account_enabled}
         ></DeleteRestoreButton>
@@ -89,31 +195,28 @@ function EditUser() {
             <SummaryList.Value data-test-id='organisation'>
               {displayUserDetail('first_name')}
             </SummaryList.Value>
-            <SummaryList.Actions>
-              <a href='' onClick={updateUserDetails}>
-                Change
-              </a>
-            </SummaryList.Actions>
+            <ChangeDetailsButton
+              email={currentUserDetails.email}
+              accountEnabled={currentUserDetails.account_enabled}
+            ></ChangeDetailsButton>
           </SummaryList.Row>
           <SummaryList.Row>
             <SummaryList.Key>Last Name</SummaryList.Key>
             <SummaryList.Value data-test-id='collection'>
               {displayUserDetail('last_name')}
             </SummaryList.Value>
-            <SummaryList.Actions>
-              <a href='' onClick={updateUserDetails}>
-                Change
-              </a>
-            </SummaryList.Actions>
+            <ChangeDetailsButton
+              email={currentUserDetails.email}
+              accountEnabled={currentUserDetails.account_enabled}
+            ></ChangeDetailsButton>
           </SummaryList.Row>
           <SummaryList.Row>
             <SummaryList.Key>Do not delete</SummaryList.Key>
             <SummaryList.Value data-test-id='version'>{`${displayUserDetail('do_not_delete')}`}</SummaryList.Value>
-            <SummaryList.Actions>
-              <a href='' onClick={updateUserDetails}>
-                Change
-              </a>
-            </SummaryList.Actions>
+            <ChangeDetailsButton
+              email={currentUserDetails.email}
+              accountEnabled={currentUserDetails.account_enabled}
+            ></ChangeDetailsButton>
           </SummaryList.Row>
         </SummaryList>
         <h1 className='nhsuk-heading-l' data-test-id='heading-one'>
@@ -143,19 +246,11 @@ function EditUser() {
                 <Table.Cell>
                   <Tag>Active</Tag>
                 </Table.Cell>
-                <Table.Cell>
-                  <a
-                    href=''
-                    onClick={e => {
-                      e.preventDefault();
-                      navigate(
-                        `/user-management-test/delete-role-confirm?email=${email}&role=${role.role}&collection=${role.collection}&ods_code=${role.organisation_code}`
-                      );
-                    }}
-                  >
-                    Delete
-                  </a>
-                </Table.Cell>
+                <DeleteRoleButton
+                  email={currentUserDetails.email}
+                  role={role}
+                  accountEnabled={currentUserDetails.account_enabled}
+                ></DeleteRoleButton>
               </Table.Row>
             ))}
             {rolesToDelete.map(role => (
@@ -212,24 +307,10 @@ function EditUser() {
                 </Table.Cell>
               </Table.Row>
             ))}
-            <Table.Row style={{margin: 50}}>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell>
-                <a
-                  href=''
-                  onClick={e => {
-                    e.preventDefault();
-                    addRole();
-                  }}
-                >
-                  Add Role
-                </a>
-              </Table.Cell>
-            </Table.Row>
+            <AddRoleButton
+              email={currentUserDetails.email}
+              accountEnabled={currentUserDetails.account_enabled}
+            ></AddRoleButton>
           </Table.Body>
         </Table>
         <Button onClick={cancel}>Cancel</Button>

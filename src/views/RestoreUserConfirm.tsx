@@ -2,31 +2,25 @@ import {Button} from 'nhsuk-react-components';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useGlobalStore} from '../store/store.ts';
 
-function DeleteUserConfirm() {
+function RestoreUserConfirm() {
   const {email} = useParams();
   const navigate = useNavigate();
-  const deleteUser = useGlobalStore(state => state.deleteUser);
-  const clear = useGlobalStore(state => state.clear);
+  const restoreUser = useGlobalStore(state => state.restoreUser);
 
   function cancel() {
     navigate(`/user-management-test/edit-user/${email}`);
   }
 
   function confirm() {
-    deleteUser(email || '');
-    clear();
+    restoreUser(email || '');
     navigate(`/user-management-test/edit-user/${email}`);
   }
 
   return (
     <>
       <div className='nhsuk-u-width-full'>
-        <h2>Are you sure you want to delete this user?</h2>
-        <p>
-          Deleting this user will remove them from SDCS Cloud platform. They will not appear in
-          searches, but can be found for 2 months in the "Deleted Users" section, after which they
-          will be fully removed
-        </p>
+        <h2>Are you sure you want to restore this user?</h2>
+        <p>Restoring this user will restore all permissions currently defined for this user.</p>
         <Button onClick={cancel}>Cancel</Button>
         <Button onClick={confirm}>Confirm</Button>
       </div>
@@ -34,4 +28,4 @@ function DeleteUserConfirm() {
   );
 }
 
-export {DeleteUserConfirm};
+export {RestoreUserConfirm};
