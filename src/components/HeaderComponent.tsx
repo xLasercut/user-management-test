@@ -24,6 +24,13 @@ function HeaderComponent() {
         <Header.NavItem
           asElement={Link}
           data-test-id='home-link'
+          to='/user-management-test/email-check'
+        >
+          Add User
+        </Header.NavItem>
+        <Header.NavItem
+          asElement={Link}
+          data-test-id='home-link'
           to='/user-management-test/user-permissions'
         >
           Account Permissions

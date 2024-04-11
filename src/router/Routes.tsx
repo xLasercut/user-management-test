@@ -8,7 +8,9 @@ import {DeleteRoleConfirm} from '../views/DeleteRoleConfirm.tsx';
 import {EditUserDetails} from '../views/EditUserDetails.tsx';
 import {DeletedUsers} from '../views/DeletedUsers.tsx';
 import {DeleteUserConfirm} from '../views/DeleteUserConfirm.tsx';
-import {RestoreUserConfirm} from "../views/RestoreUserConfirm.tsx";
+import {RestoreUserConfirm} from '../views/RestoreUserConfirm.tsx';
+import {EmailCheck} from '../views/EmailCheck.tsx';
+import {AddUser} from '../views/AddUser.tsx';
 
 const router = createBrowserRouter([
   {
@@ -49,8 +51,16 @@ const router = createBrowserRouter([
       },
       {
         path: 'restore-user-confirm/:email',
-        element: <RestoreUserConfirm></RestoreUserConfirm>
-      }
+        element: <RestoreUserConfirm></RestoreUserConfirm>,
+      },
+      {
+        path: 'email-check',
+        element: <EmailCheck></EmailCheck>,
+      },
+      {
+        path: 'add-user/:email',
+        element: <AddUser></AddUser>,
+      },
     ],
   },
 ]);

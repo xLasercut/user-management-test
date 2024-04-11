@@ -3,6 +3,7 @@ import {Button, SummaryList, Table, Tag} from 'nhsuk-react-components';
 import {useNavigate, useParams} from 'react-router-dom';
 import {getOrgName, isRoleInList} from '../store/helpers.ts';
 import {Role, User} from '../types.ts';
+import {AddRoleButton} from "../components/AddRoleButton.tsx";
 
 function UserName({userAccountDetails}: {userAccountDetails: User}) {
   if (!userAccountDetails.account_enabled) {
@@ -24,39 +25,7 @@ function UserName({userAccountDetails}: {userAccountDetails: User}) {
   );
 }
 
-function AddRoleButton({email, accountEnabled}: {email: string; accountEnabled: boolean}) {
-  const navigate = useNavigate();
 
-  function addRole() {
-    navigate(`/user-management-test/add-roles/${email}`);
-  }
-
-  if (!accountEnabled) {
-    return null;
-  }
-  return (
-    <>
-      <Table.Row style={{margin: 50}}>
-        <Table.Cell></Table.Cell>
-        <Table.Cell></Table.Cell>
-        <Table.Cell></Table.Cell>
-        <Table.Cell></Table.Cell>
-        <Table.Cell></Table.Cell>
-        <Table.Cell>
-          <a
-            href=''
-            onClick={e => {
-              e.preventDefault();
-              addRole();
-            }}
-          >
-            Add Role
-          </a>
-        </Table.Cell>
-      </Table.Row>
-    </>
-  );
-}
 
 function ChangeDetailsButton({email, accountEnabled}: {email: string; accountEnabled: boolean}) {
   const navigate = useNavigate();

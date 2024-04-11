@@ -17,7 +17,17 @@ function Home() {
         </p>
       </div>
       <div className='nhsuk-grid-row'>
-        <div className='nhsuk-grid-column-one-half'>
+        <div className='nhsuk-grid-column-one-third'>
+          <Card clickable data-test-id='submission-history-card'>
+            <Card.Content>
+              <Card.Heading>
+                <Link to='/user-management-test/email-check'>Add user</Link>
+              </Card.Heading>
+              <Card.Description>Add a new user</Card.Description>
+            </Card.Content>
+          </Card>
+        </div>
+        <div className='nhsuk-grid-column-one-third'>
           <Card clickable data-test-id='submission-history-card'>
             <Card.Content>
               <Card.Heading>
@@ -27,7 +37,7 @@ function Home() {
             </Card.Content>
           </Card>
         </div>
-        <div className='nhsuk-grid-column-one-half'>
+        <div className='nhsuk-grid-column-one-third'>
           <Card clickable data-test-id='submission-history-card'>
             <Card.Content>
               <Card.Heading>

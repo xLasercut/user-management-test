@@ -1,11 +1,11 @@
 import {Button, Checkboxes, Fieldset, Input, Radios} from 'nhsuk-react-components';
 import {useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {useGlobalStore} from '../store/store.ts';
 
 function AddRoles() {
-  const {email} = useParams();
   const COLLECTIONS = ['MHSDS', 'MSDS', 'CSDS', 'IAPT'];
+  const location = useLocation();
 
   const [rolesToAdd, setRolesToAdd] = useState<Record<string, string | undefined>>({});
   const [odsCode, setOdsCode] = useState<string>('');
@@ -25,11 +25,11 @@ function AddRoles() {
       });
     }
 
-    navigate(`/user-management-test/edit-user/${email}`);
+    navigate(location.state.previousLocationPathname);
   }
 
   function cancel() {
-    navigate(`/user-management-test/edit-user/${email}`);
+    navigate(location.state.previousLocationPathname);
   }
 
   function updateOdsCode(e: any) {

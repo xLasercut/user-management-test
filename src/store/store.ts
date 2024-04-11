@@ -1,10 +1,11 @@
 import {create} from 'zustand';
-import {Role, User, UserDetailsToUpdate} from '../types.ts';
+import {Role, User, UserDetailsToUpdate, UserToAdd} from '../types.ts';
 import {isRoleInList} from './helpers.ts';
 
 interface State {
   users: User[];
   userDetailsToUpdate: UserDetailsToUpdate;
+  userToAdd: UserToAdd;
   rolesToAdd: Role[];
   rolesToDelete: Role[];
   addRoleToAdd: (role: Role) => void;
@@ -13,6 +14,7 @@ interface State {
   removeRoleToDelete: (role: Role) => void;
   addUserDetailsToUpdate: (details: UserDetailsToUpdate) => void;
   getUser: (email: string) => User;
+  isUserExist: (email: string) => boolean;
   applyChanges: (
     email: string,
     userDetails: UserDetailsToUpdate,
@@ -22,6 +24,8 @@ interface State {
   clear: () => void;
   deleteUser: (email: string) => void;
   restoreUser: (email: string) => void;
+  updateUserToAdd: (field: string, value: any) => void;
+  addUser: (user: User) => void
 }
 
 const allUsers: User[] = [
@@ -79,13 +83,21 @@ const allUsers: User[] = [
       },
     ],
     creation_time: '2001-01-01T00:00:00',
-    account_disabled_time: '2001-01-01T00:00:00'
+    account_disabled_time: '2001-01-01T00:00:00',
   },
 ];
 
 const useGlobalStore = create<State>((set, get) => ({
   users: allUsers,
   userDetailsToUpdate: {},
+  userToAdd: {
+    email: '',
+    first_name: '',
+    last_name: '',
+    do_not_delete: false,
+    account_enabled: true,
+    creation_time: '',
+  },
   rolesToAdd: [],
   rolesToDelete: [],
   addRoleToAdd: (role: Role) => {
@@ -130,6 +142,19 @@ const useGlobalStore = create<State>((set, get) => ({
   getUser: (email: string): User => {
     return get().users.filter(user => user.email === email)[0];
   },
+  isUserExist: (email: string): boolean => {
+    return get().users.filter(user => user.email === email).length === 1;
+  },
+  updateUserToAdd: (field: string, value: any) => {
+    return set(state => {
+      return {
+        userToAdd: {
+          ...state.userToAdd,
+          [field]: value,
+        },
+      };
+    });
+  },
   applyChanges: (
     email: string,
     userDetails: UserDetailsToUpdate,
@@ -163,6 +188,14 @@ const useGlobalStore = create<State>((set, get) => ({
         rolesToDelete: [],
         rolesToAdd: [],
         userDetailsToUpdate: {},
+        userToAdd: {
+          email: '',
+          first_name: '',
+          last_name: '',
+          do_not_delete: false,
+          account_enabled: true,
+          creation_time: '',
+        },
       };
     });
   },
@@ -198,6 +231,13 @@ const useGlobalStore = create<State>((set, get) => ({
       };
     });
   },
+  addUser: (user: User) => {
+    return set(state => {
+      return {
+        users: [...state.users, user]
+      }
+    })
+  }
 }));
 
 export {useGlobalStore};
