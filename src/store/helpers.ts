@@ -5,7 +5,12 @@ const ORG_CODES: Record<string, string> = {
   X27: 'NHS Digital',
 };
 
-function getOrgName(odsCode: string): string {
+function getOrgName(odsCode?: string | null): string {
+  if (!odsCode) {
+    return ''
+  }
+  
+
   return ORG_CODES[odsCode];
 }
 

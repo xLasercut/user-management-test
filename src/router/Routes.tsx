@@ -1,68 +1,23 @@
-import {createBrowserRouter} from 'react-router-dom';
-import App from '../App.tsx';
-import EditUser from '../views/EditUser.tsx';
-import AddRoles from '../views/AddRoles.tsx';
-import Home from '../views/Home.tsx';
-import {UserPermissions} from '../views/UserPermissions.tsx';
-import {DeleteRoleConfirm} from '../views/DeleteRoleConfirm.tsx';
-import {EditUserDetails} from '../views/EditUserDetails.tsx';
-import {DeletedUsers} from '../views/DeletedUsers.tsx';
-import {DeleteUserConfirm} from '../views/DeleteUserConfirm.tsx';
-import {RestoreUserConfirm} from '../views/RestoreUserConfirm.tsx';
-import {EmailCheck} from '../views/EmailCheck.tsx';
-import {AddUser} from '../views/AddUser.tsx';
+const ROOT_ROUTE = '/user-management-test';
+const USER_MANAGEMENT_PORTAL_ROUTE = `${ROOT_ROUTE}/user-management`;
 
-const router = createBrowserRouter([
-  {
-    path: '/user-management-test',
-    element: <App />,
-    children: [
-      {
-        path: '',
-        element: <Home></Home>,
-      },
-      {
-        path: 'user-permissions',
-        element: <UserPermissions></UserPermissions>,
-      },
-      {
-        path: 'edit-user/:email',
-        element: <EditUser></EditUser>,
-      },
-      {
-        path: 'add-roles/:email',
-        element: <AddRoles></AddRoles>,
-      },
-      {
-        path: 'delete-role-confirm',
-        element: <DeleteRoleConfirm></DeleteRoleConfirm>,
-      },
-      {
-        path: 'edit-user-details/:email',
-        element: <EditUserDetails></EditUserDetails>,
-      },
-      {
-        path: 'deleted-users',
-        element: <DeletedUsers></DeletedUsers>,
-      },
-      {
-        path: 'delete-user-confirm/:email',
-        element: <DeleteUserConfirm></DeleteUserConfirm>,
-      },
-      {
-        path: 'restore-user-confirm/:email',
-        element: <RestoreUserConfirm></RestoreUserConfirm>,
-      },
-      {
-        path: 'email-check',
-        element: <EmailCheck></EmailCheck>,
-      },
-      {
-        path: 'add-user/:email',
-        element: <AddUser></AddUser>,
-      },
-    ],
-  },
-]);
+const ROUTES = {
+  HOME: `${ROOT_ROUTE}/`,
+  ERROR: `${ROOT_ROUTE}/error`,
+  USER_MANAGEMENT_HOME: `${USER_MANAGEMENT_PORTAL_ROUTE}/`,
+  USER_PERMISSIONS: `${USER_MANAGEMENT_PORTAL_ROUTE}/user-permissions`,
+  EDIT_USER: (email: string) => `${USER_MANAGEMENT_PORTAL_ROUTE}/edit-user/${email}`,
+  DELETE_USER_CONFIRM: (email: string) =>
+    `${USER_MANAGEMENT_PORTAL_ROUTE}/delete-user-confirm/${email}`,
+  EDIT_USER_DETAILS: (email: string) =>
+    `${USER_MANAGEMENT_PORTAL_ROUTE}/edit-user-details/${email}`,
+  ADD_ROLE: `${USER_MANAGEMENT_PORTAL_ROUTE}/add-role`,
+  DELETE_ROLE_CONFIRM: `${USER_MANAGEMENT_PORTAL_ROUTE}/delete-role-confirm`,
+  EMAIL_CHECK: `${USER_MANAGEMENT_PORTAL_ROUTE}/email-check`,
+  DELETED_USERS: `${USER_MANAGEMENT_PORTAL_ROUTE}/deleted-users`,
+  RESTORE_USER_CONFIRM: (email: string) =>
+    `${USER_MANAGEMENT_PORTAL_ROUTE}/restore-user-confirm/${email}`,
+  ADD_USER: (email: string) => `${USER_MANAGEMENT_PORTAL_ROUTE}/add-user/${email}`,
+} as const;
 
-export {router};
+export {ROUTES};

@@ -1,13 +1,15 @@
 import {useLocation, useNavigate} from 'react-router-dom';
 import {Table} from 'nhsuk-react-components';
+import {ROUTES} from '../../../router/Routes.tsx';
 
-function AddRoleButton({email, accountEnabled}: {email: string; accountEnabled: boolean}) {
+function AddRoleButton({accountEnabled}: {accountEnabled: boolean}) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  function addRole() {
-    navigate(`/user-management-test/add-roles/${email}`, {
-      state: {previousLocationPathname: location.pathname},
+  function addRole(e: React.MouseEvent) {
+    e.preventDefault();
+    navigate(ROUTES.ADD_ROLE, {
+      state: {from: location.pathname},
     });
   }
 
@@ -23,13 +25,7 @@ function AddRoleButton({email, accountEnabled}: {email: string; accountEnabled: 
         <Table.Cell></Table.Cell>
         <Table.Cell></Table.Cell>
         <Table.Cell>
-          <a
-            href=''
-            onClick={e => {
-              e.preventDefault();
-              addRole();
-            }}
-          >
+          <a href='' onClick={addRole}>
             Add Role
           </a>
         </Table.Cell>

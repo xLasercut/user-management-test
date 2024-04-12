@@ -1,6 +1,9 @@
-import HeaderComponent from './components/HeaderComponent.tsx';
+import {Route, Routes} from 'react-router-dom';
+import {HeaderComponent} from './components/Header/HeaderComponent.tsx';
 import {Footer} from 'nhsuk-react-components';
-import {Outlet} from 'react-router-dom';
+import {UserManagementPortal} from './pages/UserManagementPortal/UserManagementPortal.tsx';
+import {Home} from './pages/Home/Home.tsx';
+import {Error} from './pages/Error/Error.tsx';
 
 function App() {
   return (
@@ -8,7 +11,14 @@ function App() {
       <HeaderComponent></HeaderComponent>
       <div className='nhsuk-width-container'>
         <main className='nhsuk-main-wrapper' id='maincontent' role='main'>
-          <Outlet></Outlet>
+          <Routes>
+            <Route path={'/user-management-test/error'} element={<Error />} />
+            <Route path={'/user-management-test/'} element={<Home />} />
+            <Route
+              path={'/user-management-test/user-management/*'}
+              element={<UserManagementPortal />}
+            />
+          </Routes>
         </main>
       </div>
       <Footer>

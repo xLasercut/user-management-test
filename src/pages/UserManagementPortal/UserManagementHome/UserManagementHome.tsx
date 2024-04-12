@@ -1,7 +1,8 @@
 import {Card} from 'nhsuk-react-components';
 import {Link} from 'react-router-dom';
+import {ROUTES} from '../../../router/Routes.tsx';
 
-function Home() {
+function UserManagementHome() {
   return (
     <>
       <div className='nhsuk-u-width-two-thirds'>
@@ -21,7 +22,7 @@ function Home() {
           <Card clickable data-test-id='submission-history-card'>
             <Card.Content>
               <Card.Heading>
-                <Link to='/user-management-test/email-check'>Add user</Link>
+                <Link to={ROUTES.EMAIL_CHECK}>Add user</Link>
               </Card.Heading>
               <Card.Description>Add a new user</Card.Description>
             </Card.Content>
@@ -31,7 +32,7 @@ function Home() {
           <Card clickable data-test-id='submission-history-card'>
             <Card.Content>
               <Card.Heading>
-                <Link to='/user-management-test/user-permissions'>Accounts and Permissions</Link>
+                <Link to={ROUTES.USER_PERMISSIONS}>Accounts and Permissions</Link>
               </Card.Heading>
               <Card.Description>View user accounts and permission</Card.Description>
             </Card.Content>
@@ -41,7 +42,7 @@ function Home() {
           <Card clickable data-test-id='submission-history-card'>
             <Card.Content>
               <Card.Heading>
-                <Link to='/user-management-test/deleted-users'>Deleted Users</Link>
+                <Link to={ROUTES.DELETED_USERS}>Deleted Users</Link>
               </Card.Heading>
               <Card.Description>View deleted users</Card.Description>
             </Card.Content>
@@ -52,4 +53,4 @@ function Home() {
   );
 }
 
-export default Home;
+export {UserManagementHome};

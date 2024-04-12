@@ -1,31 +1,36 @@
 import {Button, Table} from 'nhsuk-react-components';
-import {useGlobalStore} from '../store/store.ts';
+import {useGlobalStore} from '../../../store/store.ts';
 import {useNavigate} from 'react-router-dom';
-import {FormInput} from '../components/FormInput.tsx';
+import {FormInput} from '../../../components/form/FormInput.tsx';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
-import {useQueryParamHelper} from '../common/query-param-helper.ts';
+import {useQueryParamHelper} from '../../../common/query-param-helper.ts';
+import {userManagementApi} from '../../../store/user-management-api.ts';
+import {ROUTES} from '../../../router/Routes.tsx';
 
 function DeletedUsers() {
-  const users = useGlobalStore(state => state.users);
+  const users = userManagementApi(state => state.users);
   const clear = useGlobalStore(state => state.clear);
   const navigate = useNavigate();
   const {updateUrlParameter, getParameter, setParameter} = useQueryParamHelper();
   const email = getParameter('email');
 
   const filterSchema = z.object({
-    email: z.string(),
+    email: z.string().toLowerCase(),
   });
 
-  const formHandler = useForm<z.infer<typeof filterSchema>>({
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm<z.infer<typeof filterSchema>>({
     resolver: zodResolver(filterSchema),
     values: {email: email},
   });
 
-  const onSubmit = formHandler.handleSubmit(data => {
+  const onSubmit = handleSubmit(data => {
     setParameter('email', data.email);
-
     updateUrlParameter();
   });
 
@@ -37,7 +42,8 @@ function DeletedUsers() {
           <div className='nhsuk-grid-column-one-quarter'>
             <FormInput<typeof filterSchema>
               formField='email'
-              formHandler={formHandler}
+              control={control}
+              errors={errors}
               label='Email'
             />
           </div>
@@ -86,7 +92,7 @@ function DeletedUsers() {
                     onClick={e => {
                       e.preventDefault();
                       clear();
-                      navigate(`/user-management-test/edit-user/${user.email}`);
+                      navigate(ROUTES.EDIT_USER(user.email));
                     }}
                   >
                     Edit
