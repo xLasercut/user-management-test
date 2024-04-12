@@ -18,6 +18,7 @@ const ROUTES = {
   RESTORE_USER_CONFIRM: (email: string) =>
     `${USER_MANAGEMENT_PORTAL_ROUTE}/restore-user-confirm/${email}`,
   ADD_USER: (email: string) => `${USER_MANAGEMENT_PORTAL_ROUTE}/add-user/${email}`,
+  EMAIL_STATUS: `${USER_MANAGEMENT_PORTAL_ROUTE}/email-status`
 } as const;
 
 export {ROUTES};

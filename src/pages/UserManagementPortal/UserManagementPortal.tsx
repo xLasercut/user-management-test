@@ -10,6 +10,7 @@ import {DeletedUsers} from './DeletedUsers/DeletedUsers.tsx';
 import {RestoreUserConfirm} from './RestoreUserConfirm/RestoreUserConfirm.tsx';
 import {EmailCheck} from './EmailCheck/EmailCheck.tsx';
 import {AddUser} from './AddUser/AddUser.tsx';
+import {EmailStatus} from '../EmailStatus/EmailStatus.tsx';
 
 function UserManagementPortal() {
   return (
@@ -25,6 +26,7 @@ function UserManagementPortal() {
       <Route path={'/restore-user-confirm/:email'} element={<RestoreUserConfirm />} />
       <Route path={'/email-check'} element={<EmailCheck />} />
       <Route path={'/add-user/:email'} element={<AddUser />} />
+      <Route path={'/email-status'} element={<EmailStatus />} />
     </Routes>
   );
 }

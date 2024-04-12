@@ -9,7 +9,7 @@ function getOrgName(odsCode?: string | null): string {
   if (!odsCode) {
     return ''
   }
-  
+
 
   return ORG_CODES[odsCode];
 }

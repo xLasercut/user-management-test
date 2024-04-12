@@ -67,7 +67,7 @@ function AddUser() {
     });
 
     clear();
-    navigate(ROUTES.USER_PERMISSIONS);
+    navigate(`${ROUTES.USER_PERMISSIONS}?email=${email}`);
   });
 
   return (

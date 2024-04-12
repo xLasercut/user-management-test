@@ -22,22 +22,18 @@ function FormRoleSelectItem<T extends z.AnyZodObject>({
 }: TProp<T>) {
   return (
     <Controller
-      render={({field}) => {
+      render={({field: {onChange, value}}) => {
         return (
           <Checkboxes.Box
             onChange={(e: any) => {
               if (!e.target.checked) {
-                field.onChange(undefined);
+                onChange(undefined);
               }
             }}
             conditional={
-              <Radios {...field}>
+              <Radios onChange={onChange}>
                 {items.map(item => (
-                  <Radios.Radio
-                    value={item.value}
-                    checked={field.value === item.value}
-                    key={item.value}
-                  >
+                  <Radios.Radio value={item.value} checked={value === item.value} key={item.value}>
                     {item.text}
                   </Radios.Radio>
                 ))}

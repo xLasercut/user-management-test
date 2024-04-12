@@ -14,6 +14,9 @@ function UserManagementPortalNavigation() {
       <Header.NavItem asElement={Link} to={ROUTES.DELETED_USERS}>
         Deleted Users
       </Header.NavItem>
+      <Header.NavItem asElement={Link} to={ROUTES.EMAIL_STATUS}>
+        Email Status
+      </Header.NavItem>
     </>
   );
 }

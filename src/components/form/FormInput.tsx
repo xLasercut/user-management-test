@@ -16,10 +16,11 @@ function FormInput<T extends z.AnyZodObject>({formField, control, errors, label,
     <Controller
       name={formField}
       control={control}
-      render={({field}) => {
+      render={({field: {onChange, value}}) => {
         return (
           <Input
-            {...field}
+            value={value}
+            onChange={onChange}
             error={formErrorMessage<T>(formField, errors)}
             label={label}
             hint={hint}

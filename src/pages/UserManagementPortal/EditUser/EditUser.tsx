@@ -70,7 +70,7 @@ function EditUser() {
       roles: rolesToDelete,
     });
     clear();
-    navigate(ROUTES.USER_PERMISSIONS);
+    navigate(`${ROUTES.USER_PERMISSIONS}?email=${email}`);
   }
 
   function currentRolesToDisplay(): TUserRole[] {
