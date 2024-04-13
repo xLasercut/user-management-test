@@ -10,7 +10,7 @@ import {DeletedUsers} from './DeletedUsers/DeletedUsers.tsx';
 import {RestoreUserConfirm} from './RestoreUserConfirm/RestoreUserConfirm.tsx';
 import {EmailCheck} from './EmailCheck/EmailCheck.tsx';
 import {AddUser} from './AddUser/AddUser.tsx';
-import {EmailStatus} from '../EmailStatus/EmailStatus.tsx';
+import {EmailStatus} from './EmailStatus/EmailStatus.tsx';
 
 function UserManagementPortal() {
   return (

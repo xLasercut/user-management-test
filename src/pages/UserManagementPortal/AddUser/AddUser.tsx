@@ -15,6 +15,8 @@ import {userManagementApi} from '../../../store/user-management-api.ts';
 
 function AddUser() {
   const {email} = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   if (!email) {
     return <Navigate to={ROUTES.ERROR}></Navigate>;
@@ -26,8 +28,6 @@ function AddUser() {
   const createUser = userManagementApi(state => state.createUser);
   const addRoles = userManagementApi(state => state.addRoles);
   const clear = editUserStore(state => state.clear);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const formSchema = z.object({
     first_name: z.string().trim().min(1),

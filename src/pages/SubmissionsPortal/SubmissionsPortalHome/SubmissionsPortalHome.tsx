@@ -1,7 +1,7 @@
 import {Card} from '../../../components/Card.tsx';
 import {ROUTES} from '../../../router/Routes.tsx';
 
-function UserManagementHome() {
+function SubmissionsPortalHome() {
   return (
     <>
       <div className='nhsuk-u-width-two-thirds'>
@@ -18,28 +18,11 @@ function UserManagementHome() {
       </div>
       <div className='nhsuk-grid-row'>
         <div className='nhsuk-grid-column-one-half'>
-          <Card label={'Add user'} to={ROUTES.EMAIL_CHECK} description={'Add a new user'} />
-        </div>
-        <div className='nhsuk-grid-column-one-half'>
-          <Card
-            label={'Accounts and Permissions'}
-            to={ROUTES.USER_PERMISSIONS}
-            description={'View user accounts and permissions'}
-          />
-        </div>
-        <div className='nhsuk-grid-column-one-half'>
-          <Card
-            label={'Deleted Users'}
-            to={ROUTES.DELETED_USERS}
-            description={'View deleted users'}
-          />
-        </div>
-        <div className='nhsuk-grid-column-one-half'>
-          <Card label={'Email Status'} to={ROUTES.EMAIL_STATUS} description={'View email status'} />
+          <Card label={'Submit data'} to={ROUTES.EMAIL_CHECK} description={'Submit data'} />
         </div>
       </div>
     </>
   );
 }
 
-export {UserManagementHome};
+export {SubmissionsPortalHome};

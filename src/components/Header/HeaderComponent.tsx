@@ -3,6 +3,7 @@ import {Link, Route, Routes, useNavigate} from 'react-router-dom';
 import {ROUTES} from '../../router/Routes.tsx';
 import {HomeNavigation} from './HeaderNavigations/HomeNavigation.tsx';
 import {UserManagementPortalNavigation} from './HeaderNavigations/UserManagementPortalNavigation.tsx';
+import {SubmissionsPortalNavigation} from './HeaderNavigations/SubmissionsPortalNavigation.tsx';
 
 function HeaderComponent() {
   const navigate = useNavigate();
@@ -15,8 +16,8 @@ function HeaderComponent() {
   return (
     <Header>
       <Header.Container>
-        <Header.Logo href='' onClick={goHome} />
-        <Header.ServiceName href='' onClick={goHome}>
+        <Header.Logo href="" onClick={goHome} />
+        <Header.ServiceName href="" onClick={goHome}>
           Strategic Data Collection Service
         </Header.ServiceName>
       </Header.Container>
@@ -30,28 +31,8 @@ function HeaderComponent() {
             path={'/user-management-test/user-management/*'}
             element={<UserManagementPortalNavigation />}
           />
+          <Route path={'/user-management-test/submissions-portal/*'} element={<SubmissionsPortalNavigation />} />
         </Routes>
-        {/*<Header.NavItem*/}
-        {/*  asElement={Link}*/}
-        {/*  data-test-id='home-link'*/}
-        {/*  to='/user-management-test/email-check'*/}
-        {/*>*/}
-        {/*  Add User*/}
-        {/*</Header.NavItem>*/}
-        {/*<Header.NavItem*/}
-        {/*  asElement={Link}*/}
-        {/*  data-test-id='home-link'*/}
-        {/*  to='/user-management-test/user-permissions'*/}
-        {/*>*/}
-        {/*  Account Permissions*/}
-        {/*</Header.NavItem>*/}
-        {/*<Header.NavItem*/}
-        {/*  asElement={Link}*/}
-        {/*  data-test-id='home-link'*/}
-        {/*  to='/user-management-test/deleted-users'*/}
-        {/*>*/}
-        {/*  Deleted Users*/}
-        {/*</Header.NavItem>*/}
       </Header.Nav>
     </Header>
   );

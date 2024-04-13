@@ -1,5 +1,4 @@
 import {Button, Table} from 'nhsuk-react-components';
-import {useGlobalStore} from '../../../store/store.ts';
 import {useNavigate} from 'react-router-dom';
 import {FormInput} from '../../../components/form/FormInput.tsx';
 import {z} from 'zod';
@@ -8,10 +7,11 @@ import {useForm} from 'react-hook-form';
 import {useQueryParamHelper} from '../../../common/query-param-helper.ts';
 import {userManagementApi} from '../../../store/user-management-api.ts';
 import {ROUTES} from '../../../router/Routes.tsx';
+import {editUserStore} from '../../../store/edit-user.ts';
 
 function DeletedUsers() {
   const users = userManagementApi(state => state.users);
-  const clear = useGlobalStore(state => state.clear);
+  const clear = editUserStore(state => state.clear);
   const navigate = useNavigate();
   const {updateUrlParameter, getParameter, setParameter} = useQueryParamHelper();
   const email = getParameter('email');

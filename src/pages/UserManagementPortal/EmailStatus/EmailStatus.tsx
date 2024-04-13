@@ -1,6 +1,6 @@
-import {FormInput} from '../../components/form/FormInput.tsx';
+import {FormInput} from '../../../components/form/FormInput.tsx';
 import {Button, Table} from 'nhsuk-react-components';
-import {ROUTES} from '../../router/Routes.tsx';
+import {ROUTES} from '../../../router/Routes.tsx';
 
 function EmailStatus() {
   return (

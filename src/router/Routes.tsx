@@ -1,9 +1,11 @@
 const ROOT_ROUTE = '/user-management-test';
 const USER_MANAGEMENT_PORTAL_ROUTE = `${ROOT_ROUTE}/user-management`;
+const SUBMISSIONS_PORTAL_ROUTE = `${ROOT_ROUTE}/submissions-portal`;
 
 const ROUTES = {
   HOME: `${ROOT_ROUTE}/`,
   ERROR: `${ROOT_ROUTE}/error`,
+  // user management
   USER_MANAGEMENT_HOME: `${USER_MANAGEMENT_PORTAL_ROUTE}/`,
   USER_PERMISSIONS: `${USER_MANAGEMENT_PORTAL_ROUTE}/user-permissions`,
   EDIT_USER: (email: string) => `${USER_MANAGEMENT_PORTAL_ROUTE}/edit-user/${email}`,
@@ -18,7 +20,9 @@ const ROUTES = {
   RESTORE_USER_CONFIRM: (email: string) =>
     `${USER_MANAGEMENT_PORTAL_ROUTE}/restore-user-confirm/${email}`,
   ADD_USER: (email: string) => `${USER_MANAGEMENT_PORTAL_ROUTE}/add-user/${email}`,
-  EMAIL_STATUS: `${USER_MANAGEMENT_PORTAL_ROUTE}/email-status`
+  EMAIL_STATUS: `${USER_MANAGEMENT_PORTAL_ROUTE}/email-status`,
+  // submissions
+  SUBMISSIONS_HOME: `${SUBMISSIONS_PORTAL_ROUTE}/`
 } as const;
 
 export {ROUTES};
