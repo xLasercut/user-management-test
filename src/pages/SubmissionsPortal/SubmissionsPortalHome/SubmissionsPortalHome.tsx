@@ -16,11 +16,14 @@ function SubmissionsPortalHome() {
           ensure it is of the required standard before processing.
         </p>
       </div>
-      <div className='nhsuk-grid-row'>
-        <div className='nhsuk-grid-column-one-half'>
-          <Card label={'Submit data'} to={ROUTES.EMAIL_CHECK} description={'Submit data'} />
+        <div className='nhsuk-grid-row'>
+            <div className='nhsuk-grid-column-one-half'>
+                <Card label={'Submit data'} to={ROUTES.SUBMISSIONS_HOME} description={'Submit data'}/>
+            </div>
+            <div className='nhsuk-grid-column-one-half'>
+                <Card label={'Set config'} to={ROUTES.SET_SUBMISSION_CONFIG} description={'Set mock config file'}/>
+            </div>
         </div>
-      </div>
     </>
   );
 }

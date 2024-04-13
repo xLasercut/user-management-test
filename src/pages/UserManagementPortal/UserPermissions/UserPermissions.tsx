@@ -16,9 +16,9 @@ interface TUserRowsProp {
 }
 
 function UserRows({user}: TUserRowsProp) {
+  const location = useLocation();
   const navigate = useNavigate();
   const clear = editUserStore(state => state.clear);
-  const location = useLocation();
 
   function onClickEdit(e: React.MouseEvent) {
     e.preventDefault();

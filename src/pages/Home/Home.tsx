@@ -14,7 +14,7 @@ function Home() {
       </div>
       <div className="nhsuk-grid-row">
         <div className="nhsuk-grid-column-one-half">
-          <Card label={'Submissions Portal'} to={ROUTES.SUBMISSIONS_HOME} description={'Submit your data'} />
+          <Card label={'Submissions Portal'} to={ROUTES.SUBMISSIONS_PORTAL_HOME} description={'Submit your data'} />
         </div>
         <div className="nhsuk-grid-column-one-half">
           <Card label={'User Management Portal'} to={ROUTES.USER_MANAGEMENT_HOME}

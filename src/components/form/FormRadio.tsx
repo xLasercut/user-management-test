@@ -21,20 +21,14 @@ function FormRadio<T extends z.AnyZodObject>({
   control,
   formField,
   errors,
-  label,
-  hint,
   items,
+  ...rest
 }: TProp<T>) {
   return (
     <Controller
       render={({field: {onChange, value}}) => {
         return (
-          <Radios
-            label={label}
-            hint={hint}
-            error={formErrorMessage<T>(formField, errors)}
-            onChange={onChange}
-          >
+          <Radios {...rest} error={formErrorMessage<T>(formField, errors)} onChange={onChange}>
             {items.map(item => (
               <Radios.Radio checked={value === item.value} value={item.value} key={item.value}>
                 {item.text}

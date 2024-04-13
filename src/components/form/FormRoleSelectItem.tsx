@@ -26,7 +26,7 @@ function FormRoleSelectItem<T extends z.AnyZodObject>({
         return (
           <Checkboxes.Box
             onChange={(e: any) => {
-              if (!e.target.checked) {
+              if (!(e.target.checked)) {
                 onChange(undefined);
               }
             }}

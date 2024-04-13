@@ -1,8 +1,8 @@
-import {useNavigate, useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 function useQueryParamHelper() {
   const {pathname, search} = useLocation();
-  const navivage = useNavigate();
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(search);
 
   function getParameter(name: string): string {
@@ -19,10 +19,14 @@ function useQueryParamHelper() {
   }
 
   function updateUrlParameter() {
-    navivage({pathname, search: searchParams.toString()});
+    navigate({pathname: pathname, search: searchParams.toString()});
   }
 
-  return {updateUrlParameter, getParameter, setParameter};
+  function setAndNavigateWithUrlParams(to: string) {
+    navigate({pathname: to, search: searchParams.toString()}, {state: {from: `${pathname}?${searchParams.toString()}`}});
+  }
+
+  return {updateUrlParameter, getParameter, setParameter, setAndNavigateWithUrlParams};
 }
 
 export {useQueryParamHelper};
