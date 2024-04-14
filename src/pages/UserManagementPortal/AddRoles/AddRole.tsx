@@ -33,13 +33,14 @@ function AddRole() {
   }
 
   const formSchema = z.object(formSchemaRaw);
+  type TFormSchema = z.infer<typeof formSchema>
 
   const {
     control,
     handleSubmit,
     formState: {errors},
     setError,
-  } = useForm<z.infer<typeof formSchema>>({
+  } = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
     values: {
       odsCode: '',
@@ -72,7 +73,7 @@ function AddRole() {
       <div className='nhsuk-u-width-two-thirds'>
         <BackLink to={location.state.from}>Cancel</BackLink>
         <form onSubmit={onSubmitForm}>
-          <FormInput<typeof formSchema>
+          <FormInput<TFormSchema>
             control={control}
             formField={'odsCode'}
             errors={errors}
@@ -82,9 +83,9 @@ function AddRole() {
             <Fieldset.Legend>
               <b>Select collection and role</b>
             </Fieldset.Legend>
-            <Checkboxes error={formErrorMessage<typeof formSchema>('roles', errors)}>
+            <Checkboxes error={formErrorMessage<TFormSchema>('roles', errors)}>
               {Object.values(COLLECTIONS).map(collection => (
-                <FormRoleSelectItem<typeof formSchema>
+                <FormRoleSelectItem<TFormSchema>
                   control={control}
                   formField={collection}
                   label={collection}

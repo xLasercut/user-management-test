@@ -12,6 +12,7 @@ import {BooleanString} from '../../../models/user-management-api/common.ts';
 import {FormInput} from '../../../components/form/FormInput.tsx';
 import {FormRadio} from '../../../components/form/FormRadio.tsx';
 import {userManagementApi} from '../../../store/user-management-api.ts';
+import {emailNotificationApi} from '../../../store/email-notification.ts';
 
 function AddUser() {
   const {email} = useParams();
@@ -27,6 +28,7 @@ function AddUser() {
   const setUserToCreate = editUserStore(state => state.setUserToCreate);
   const createUser = userManagementApi(state => state.createUser);
   const addRoles = userManagementApi(state => state.addRoles);
+  const createEmail = emailNotificationApi(state => state.createEmail);
   const clear = editUserStore(state => state.clear);
 
   const formSchema = z.object({
@@ -34,13 +36,14 @@ function AddUser() {
     last_name: z.string().trim().min(1),
     account_enabled: BooleanString,
   });
+  type TFormSchema = z.infer<typeof formSchema>
 
   const {
     control,
     handleSubmit,
     formState: {errors},
     watch,
-  } = useForm<z.infer<typeof formSchema>>({
+  } = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
     values: {
       first_name: userToCreate.first_name || '',
@@ -65,7 +68,11 @@ function AddUser() {
       email: email,
       roles: rolesToAdd,
     });
-
+    createEmail({
+      subject: 'SDCSC access',
+      to_address: [email],
+      template: 'new_user',
+    });
     clear();
     navigate(`${ROUTES.USER_PERMISSIONS}?email=${email}`);
   });
@@ -78,19 +85,19 @@ function AddUser() {
         <h4>Email</h4>
         <p>{email}</p>
 
-        <FormInput<typeof formSchema>
+        <FormInput<TFormSchema>
           control={control}
           formField={'first_name'}
           errors={errors}
           label='First Name'
         ></FormInput>
-        <FormInput<typeof formSchema>
+        <FormInput<TFormSchema>
           control={control}
           formField={'last_name'}
           errors={errors}
           label='Last Name'
         ></FormInput>
-        <FormRadio<typeof formSchema>
+        <FormRadio<TFormSchema>
           control={control}
           formField={'account_enabled'}
           errors={errors}

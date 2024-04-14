@@ -19,12 +19,13 @@ function DeletedUsers() {
   const filterSchema = z.object({
     email: z.string().toLowerCase(),
   });
+  type TFilterSchema = z.infer<typeof filterSchema>;
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<z.infer<typeof filterSchema>>({
+  } = useForm<TFilterSchema>({
     resolver: zodResolver(filterSchema),
     values: {email: email},
   });
@@ -40,7 +41,7 @@ function DeletedUsers() {
       <div className='nhsuk-grid-row'>
         <form onSubmit={onSubmit}>
           <div className='nhsuk-grid-column-one-quarter'>
-            <FormInput<typeof filterSchema>
+            <FormInput<TFilterSchema>
               formField='email'
               control={control}
               errors={errors}

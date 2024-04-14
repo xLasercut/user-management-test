@@ -1,11 +1,10 @@
-import {Control, Controller, FieldErrors, UseFormRegister} from 'react-hook-form';
-import {z} from 'zod';
+import {Control, Controller, FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
 import {Input} from 'nhsuk-react-components';
 import {formErrorMessage} from './helpers.ts';
 
-interface Prop<T extends z.AnyZodObject> {
-  control: Control<z.infer<T>>;
-  formField: Parameters<UseFormRegister<z.infer<T>>>['0'];
+interface Prop<T extends FieldValues> {
+  control: Control<T>;
+  formField: Parameters<UseFormRegister<T>>['0'];
   errors: FieldErrors;
   label?: string;
   hint?: string;
@@ -13,7 +12,7 @@ interface Prop<T extends z.AnyZodObject> {
   id?: string;
 }
 
-function FormInput<T extends z.AnyZodObject>({formField, control, errors, ...rest}: Prop<T>) {
+function FormInput<T extends FieldValues>({formField, control, errors, ...rest}: Prop<T>) {
   return (
     <Controller
       name={formField}

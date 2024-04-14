@@ -13,6 +13,7 @@ import {UserSummary} from './UserSummary.tsx';
 import {RoleToAddRow} from './RoleToAddRow.tsx';
 import {DeleteRoleButton} from './DeleteRoleButton.tsx';
 import {RoleToDeleteRow} from './RoleToDeleteRow.tsx';
+import {emailNotificationApi} from '../../../store/email-notification.ts';
 
 function UserName({userAccountDetails}: {userAccountDetails: User}) {
   if (!userAccountDetails.account_enabled) {
@@ -36,6 +37,8 @@ function UserName({userAccountDetails}: {userAccountDetails: User}) {
 
 function EditUser() {
   const {email} = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   if (!email) {
     return <Navigate to={ROUTES.ERROR} />;
@@ -47,9 +50,8 @@ function EditUser() {
   const rolesToAdd = editUserStore(state => state.rolesToAdd);
   const rolesToDelete = editUserStore(state => state.rolesToDelete);
   const userManagementApiState = userManagementApi();
+  const createEmail = emailNotificationApi(state => state.createEmail);
   const clear = editUserStore(state => state.clear);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   function confirmChange() {
     if (!email) {
@@ -68,6 +70,11 @@ function EditUser() {
     userManagementApiState.deleteRoles({
       email: email,
       roles: rolesToDelete,
+    });
+    createEmail({
+      template: 'update_user',
+      subject: 'SDCSC access',
+      to_address: [email],
     });
     clear();
     navigate(`${ROUTES.USER_PERMISSIONS}?email=${email}`);

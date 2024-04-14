@@ -18,12 +18,13 @@ function EmailCheck() {
   const formSchema = z.object({
     email: z.string().trim().min(1).toLowerCase(),
   });
+  type TFormSchema = z.infer<typeof formSchema>;
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<z.infer<typeof formSchema>>({
+  } = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
     values: {email: ''},
   });
@@ -43,7 +44,7 @@ function EmailCheck() {
       <div className='nhsuk-u-width-two-thirds'>
         <BackLink to={ROUTES.HOME}>Cancel</BackLink>
         <form onSubmit={onSubmit}>
-          <FormInput<typeof formSchema>
+          <FormInput<TFormSchema>
             control={control}
             formField='email'
             errors={errors}

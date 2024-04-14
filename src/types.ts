@@ -1,11 +1,5 @@
 import {TUserRole} from './models/user-management-api/common.ts';
 
-interface Role {
-  role: string;
-  collection?: string | null;
-  organisation_code?: string | null;
-}
-
 interface User {
   email: string;
   first_name?: string | null;
@@ -18,19 +12,13 @@ interface User {
   creation_time: string;
 }
 
-interface UserDetailsToUpdate {
-  first_name?: string;
-  last_name?: string;
-  do_not_delete?: boolean;
+interface Email {
+  job_id: string
+  subject: string
+  template: string
+  to_address: string[]
+  creation_time: string
+  status: string
 }
 
-interface UserToAdd {
-  email: string;
-  first_name: string;
-  last_name: string;
-  do_not_delete: boolean;
-  account_enabled: boolean;
-  creation_time: string;
-}
-
-export type {Role, User, UserDetailsToUpdate, UserToAdd};
+export type {User, Email};

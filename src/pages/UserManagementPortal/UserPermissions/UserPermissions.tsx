@@ -68,12 +68,13 @@ function UserPermissions() {
     email: z.string().trim().toLowerCase(),
     odsCode: z.string().trim().toUpperCase(),
   });
+  type TFilterSchema = z.infer<typeof filterModel>;
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<z.infer<typeof filterModel>>({
+  } = useForm<TFilterSchema>({
     resolver: zodResolver(filterModel),
     values: {
       email: email,
@@ -106,7 +107,7 @@ function UserPermissions() {
       <div className='nhsuk-grid-row'>
         <form onSubmit={onSubmitForm}>
           <div className='nhsuk-grid-column-one-quarter'>
-            <FormInput<typeof filterModel>
+            <FormInput<TFilterSchema>
               control={control}
               formField='email'
               label='Email'
@@ -114,7 +115,7 @@ function UserPermissions() {
             />
           </div>
           <div className='nhsuk-grid-column-one-quarter'>
-            <FormInput<typeof filterModel>
+            <FormInput<TFilterSchema>
               control={control}
               formField='odsCode'
               label='ODS Code'

@@ -1,10 +1,11 @@
 import {create} from 'zustand';
-import {Role, User} from '../types.ts';
+import {User} from '../types.ts';
 import {TCreateUserRequestBody} from '../models/user-management-api/create-user.ts';
 import {TUpdateUserRequestBody} from '../models/user-management-api/update-user.ts';
 import {TGetUserRequestParams} from '../models/user-management-api/get-user.ts';
 import {TAddRolesRequestBody} from '../models/user-management-api/add-roles.ts';
 import {TDeleteRolesRequestBody} from '../models/user-management-api/delete-roles.ts';
+import {TUserRole} from '../models/user-management-api/common.ts';
 
 interface TState {
   users: User[];
@@ -13,6 +14,7 @@ interface TState {
   getUser: (params: TGetUserRequestParams) => User[];
   addRoles: (body: TAddRolesRequestBody) => void;
   deleteRoles: (body: TDeleteRolesRequestBody) => void;
+  userDetails: () => User;
 }
 
 function isUserInOrg(user: User, organisation_code: string | null | undefined): boolean {
@@ -66,7 +68,7 @@ function shouldIncludeUser(params: TGetUserRequestParams, user: User): boolean {
   return false;
 }
 
-function filterRoles(params: TGetUserRequestParams, role: Role): boolean {
+function filterRoles(params: TGetUserRequestParams, role: TUserRole): boolean {
   const organisation_code = params.organisation_code;
 
   if (organisation_code) {
@@ -137,6 +139,9 @@ const USERS: User[] = [
 const userManagementApi = create<TState>((set, get) => {
   return {
     users: USERS,
+    userDetails: () => {
+      return get().getUser({email: 'john.smith@nhs.net'})[0];
+    },
     createUser: (body: TCreateUserRequestBody) => {
       const userToAdd: User = {
         email: body.email,

@@ -13,12 +13,13 @@ function SubmissionConfig() {
   const formSchema = z.object({
     file: z.string().trim().min(1),
   });
+  type TFormSchema = z.infer<typeof formSchema>;
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<z.infer<typeof formSchema>>({
+  } = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
   });
 
@@ -44,7 +45,7 @@ function SubmissionConfig() {
   return (
     <div className='nhsuk-u-width-two-thirds'>
       <form onSubmit={onSubmit}>
-        <FormInput<typeof formSchema>
+        <FormInput<TFormSchema>
           label={'Upload'}
           type={'file'}
           id={'file'}

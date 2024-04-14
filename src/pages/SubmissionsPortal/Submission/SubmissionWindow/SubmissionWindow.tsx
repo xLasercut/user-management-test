@@ -15,19 +15,20 @@ function SubmissionWindow() {
   const {setAndNavigateWithUrlParams, getParameter, setParameter} = useQueryParamHelper();
   const type = getParameter('type') as TSubmissionType;
   const collection = getParameter('collection');
-  const version = getParameter('version')
+  const version = getParameter('version');
   const window = getParameter('window');
   const getSubmissionWindows = datasetConfigApi(state => state.getSubmissionWindows);
 
   const formSchema = z.object({
     window: z.string().trim().min(1),
   });
+  type TFormSchema = z.infer<typeof formSchema>;
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<z.infer<typeof formSchema>>({
+  } = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
     values: {
       window: window,
@@ -45,7 +46,7 @@ function SubmissionWindow() {
         Submission Type
       </BackLink>
       <form onSubmit={onSubmit}>
-        <FormRadio<typeof formSchema>
+        <FormRadio<TFormSchema>
           control={control}
           formField={'window'}
           errors={errors}

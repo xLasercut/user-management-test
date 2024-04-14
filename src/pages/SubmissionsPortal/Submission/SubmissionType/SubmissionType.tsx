@@ -20,12 +20,13 @@ function SubmissionType() {
   const formSchema = z.object({
     type: z.string().trim().min(1),
   });
+  type TFormSchema = z.infer<typeof formSchema>
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<z.infer<typeof formSchema>>({
+  } = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
     values: {
       type: type,
@@ -41,7 +42,7 @@ function SubmissionType() {
     <>
       <BackLink to={location.state?.from || `${ROUTES.SUBMISSIONS_HOME}${location.search}`}>Collection</BackLink>
       <form onSubmit={onSubmit}>
-        <FormRadio<typeof formSchema>
+        <FormRadio<TFormSchema>
           control={control}
           formField={'type'}
           errors={errors}

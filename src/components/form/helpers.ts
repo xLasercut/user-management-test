@@ -1,8 +1,7 @@
-import {FieldErrors, UseFormRegister} from 'react-hook-form';
-import {z} from 'zod';
+import {FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
 
-function formErrorMessage<T extends z.AnyZodObject>(
-  formField: Parameters<UseFormRegister<z.infer<T>>>['0'],
+function formErrorMessage<T extends FieldValues>(
+  formField: Parameters<UseFormRegister<T>>['0'],
   errors: FieldErrors
 ): string {
   const error = errors[formField];

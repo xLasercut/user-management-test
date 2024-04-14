@@ -1,7 +1,10 @@
 import {Card} from '../../../components/Card.tsx';
 import {ROUTES} from '../../../router/Routes.tsx';
+import {userManagementApi} from '../../../store/user-management-api.ts';
 
 function UserManagementHome() {
+  const userDetails = userManagementApi(state => state.userDetails);
+
   return (
     <>
       <div className='nhsuk-u-width-two-thirds'>
@@ -9,7 +12,7 @@ function UserManagementHome() {
           Strategic Data Collection Service in the cloud (SDCS Cloud)
         </h1>
         <p className='nhsuk-body-l' data-test-id='welcome-text'>
-          Welcome, User.
+          Welcome, {userDetails().first_name} {userDetails().last_name}
         </p>
         <p className='nhsuk-body-l' data-test-id='main-text'>
           This secure service allows you to submit large volumes of data into DPS, which will then

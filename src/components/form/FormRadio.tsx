@@ -1,5 +1,4 @@
-import {Control, Controller, FieldErrors, UseFormRegister} from 'react-hook-form';
-import {z} from 'zod';
+import {Control, Controller, FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
 import {Radios} from 'nhsuk-react-components';
 import {formErrorMessage} from './helpers.ts';
 
@@ -8,22 +7,16 @@ interface TFormRadioItem {
   text: string;
 }
 
-interface TProp<T extends z.AnyZodObject> {
-  control: Control<z.infer<T>>;
-  formField: Parameters<UseFormRegister<z.infer<T>>>['0'];
+interface TProp<T extends FieldValues> {
+  control: Control<T>;
+  formField: Parameters<UseFormRegister<T>>['0'];
   errors: FieldErrors;
   label?: string;
   hint?: string;
   items: TFormRadioItem[];
 }
 
-function FormRadio<T extends z.AnyZodObject>({
-  control,
-  formField,
-  errors,
-  items,
-  ...rest
-}: TProp<T>) {
+function FormRadio<T extends FieldValues>({control, formField, errors, items, ...rest}: TProp<T>) {
   return (
     <Controller
       render={({field: {onChange, value}}) => {

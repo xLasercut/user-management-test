@@ -35,12 +35,13 @@ function EditUserDetails() {
     last_name: z.string().trim().min(1),
     do_not_delete: BooleanString,
   });
+  type TFormSchema = z.infer<typeof formSchema>;
 
   const {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<z.infer<typeof formSchema>>({
+  } = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
     values: {
       first_name: userDetailsToUpdate.first_name || currentUserDetails.first_name || '',
@@ -61,19 +62,19 @@ function EditUserDetails() {
       <div className='nhsuk-u-width-two-thirds'>
         <BackLink to={location.state?.from || ROUTES.EDIT_USER(email)}>Cancel</BackLink>
         <form onSubmit={onSubmitForm}>
-          <FormInput<typeof formSchema>
+          <FormInput<TFormSchema>
             control={control}
             formField={'first_name'}
             errors={errors}
             label={'First Name'}
           />
-          <FormInput<typeof formSchema>
+          <FormInput<TFormSchema>
             control={control}
             formField={'last_name'}
             errors={errors}
             label={'Last Name'}
           />
-          <FormRadio<typeof formSchema>
+          <FormRadio<TFormSchema>
             control={control}
             formField={'do_not_delete'}
             errors={errors}

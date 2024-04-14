@@ -1,4 +1,4 @@
-import {Role} from '../types.ts';
+import {TUserRole} from '../models/user-management-api/common.ts';
 
 const ORG_CODES: Record<string, string> = {
   X26: 'NHS England',
@@ -7,14 +7,13 @@ const ORG_CODES: Record<string, string> = {
 
 function getOrgName(odsCode?: string | null): string {
   if (!odsCode) {
-    return ''
+    return '';
   }
-
 
   return ORG_CODES[odsCode];
 }
 
-function isRoleInList(roleToCheck: Role, rolesList: Role[]): boolean {
+function isRoleInList(roleToCheck: TUserRole, rolesList: TUserRole[]): boolean {
   for (const role of rolesList) {
     if (
       roleToCheck.role === role.role &&
