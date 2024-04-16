@@ -1,4 +1,4 @@
-import {Navigate, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {Button, Table} from 'nhsuk-react-components';
 import {BackLink} from '../../../components/BackLink.tsx';
 import {ROUTES} from '../../../router/Routes.tsx';
@@ -13,9 +13,11 @@ import {FormInput} from '../../../components/form/FormInput.tsx';
 import {FormRadio} from '../../../components/form/FormRadio.tsx';
 import {userManagementApi} from '../../../store/user-management-api.ts';
 import {emailNotificationApi} from '../../../store/email-notification.ts';
+import {useQueryParamHelper} from '../../../common/query-param-helper.ts';
 
 function AddUser() {
-  const {email} = useParams();
+  const {getParameter} = useQueryParamHelper();
+  const email = getParameter('email');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,7 +38,7 @@ function AddUser() {
     last_name: z.string().trim().min(1),
     account_enabled: BooleanString,
   });
-  type TFormSchema = z.infer<typeof formSchema>
+  type TFormSchema = z.infer<typeof formSchema>;
 
   const {
     control,

@@ -1,5 +1,5 @@
 import {TUserRole} from '../../../models/user-management-api/common.ts';
-import {Navigate, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {Button, Table, Tag} from 'nhsuk-react-components';
 import {userManagementApi} from '../../../store/user-management-api.ts';
 import {getOrgName, isRoleInList} from '../../../store/helpers.ts';
@@ -14,6 +14,7 @@ import {RoleToAddRow} from './RoleToAddRow.tsx';
 import {DeleteRoleButton} from './DeleteRoleButton.tsx';
 import {RoleToDeleteRow} from './RoleToDeleteRow.tsx';
 import {emailNotificationApi} from '../../../store/email-notification.ts';
+import {useQueryParamHelper} from '../../../common/query-param-helper.ts';
 
 function UserName({userAccountDetails}: {userAccountDetails: User}) {
   if (!userAccountDetails.account_enabled) {
@@ -36,9 +37,12 @@ function UserName({userAccountDetails}: {userAccountDetails: User}) {
 }
 
 function EditUser() {
-  const {email} = useParams();
+  const {getParameter} = useQueryParamHelper();
+  const email = getParameter('email');
   const navigate = useNavigate();
   const location = useLocation();
+
+  console.log(email)
 
   if (!email) {
     return <Navigate to={ROUTES.ERROR} />;

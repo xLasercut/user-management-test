@@ -19,6 +19,13 @@ function Collection() {
   const location = useLocation();
   const userDetails = userManagementApi(state => state.userDetails);
 
+  function defaultCollection() {
+    if (!collection || !version) {
+      return '';
+    }
+    return `${collection}_${version}`;
+  }
+
   const formSchema = z.object({
     collection: z.string().trim().min(1).toUpperCase(),
   });
@@ -31,7 +38,7 @@ function Collection() {
   } = useForm<TFormSchema>({
     resolver: zodResolver(formSchema),
     values: {
-      collection: `${collection}_${version}`,
+      collection: defaultCollection(),
     },
   });
 

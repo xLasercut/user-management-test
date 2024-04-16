@@ -1,5 +1,5 @@
 import {Button} from 'nhsuk-react-components';
-import {Navigate, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {ROUTES} from '../../../router/Routes.tsx';
 import {userManagementApi} from '../../../store/user-management-api.ts';
 import {editUserStore} from '../../../store/edit-user.ts';
@@ -10,9 +10,11 @@ import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {FormInput} from '../../../components/form/FormInput.tsx';
 import {FormRadio} from '../../../components/form/FormRadio.tsx';
+import {useQueryParamHelper} from '../../../common/query-param-helper.ts';
 
 function EditUserDetails() {
-  const {email} = useParams();
+  const {getParameter} = useQueryParamHelper();
+  const email = getParameter('email');
 
   if (!email) {
     return <Navigate to={ROUTES.ERROR} />;

@@ -9,7 +9,7 @@ function AddRoleButton({accountEnabled}: {accountEnabled: boolean}) {
   function addRole(e: React.MouseEvent) {
     e.preventDefault();
     navigate(ROUTES.ADD_ROLE, {
-      state: {from: location.pathname},
+      state: {from: `${location.pathname}${location.search}`},
     });
   }
 

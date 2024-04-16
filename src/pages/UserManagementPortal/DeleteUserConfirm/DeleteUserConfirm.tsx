@@ -1,9 +1,10 @@
 import {Button} from 'nhsuk-react-components';
-import {Navigate, useLocation, useNavigate, useParams} from 'react-router-dom';
+import {Navigate, useLocation, useNavigate} from 'react-router-dom';
 import {userManagementApi} from '../../../store/user-management-api.ts';
 import {BackLink} from '../../../components/BackLink.tsx';
 import {ROUTES} from '../../../router/Routes.tsx';
 import {editUserStore} from '../../../store/edit-user.ts';
+import {useQueryParamHelper} from '../../../common/query-param-helper.ts';
 
 interface TPropConfirmPage {
   email: string;
@@ -41,7 +42,8 @@ function ConfirmPage({email}: TPropConfirmPage) {
 }
 
 function DeleteUserConfirm() {
-  const {email} = useParams();
+  const {getParameter} = useQueryParamHelper();
+  const email = getParameter('email');
 
   if (!email) {
     return <Navigate to={ROUTES.ERROR}></Navigate>;

@@ -16,7 +16,7 @@ function ChangeDetailsButton({user}: TProp) {
   function updateUserDetails(e: React.MouseEvent) {
     e.preventDefault();
     setDetailsToUpdate('email', user.email);
-    navigate(ROUTES.EDIT_USER_DETAILS(user.email), {state: {from: location.pathname}});
+    navigate(ROUTES.EDIT_USER_DETAILS(user.email), {state: {from:`${location.pathname}${location.search}`}});
   }
 
   if (!user.account_enabled) {
